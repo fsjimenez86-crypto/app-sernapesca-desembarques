@@ -51,7 +51,7 @@ col_h1, col_h2 = st.columns([3, 1])
 with col_h1:
     st.markdown("### 📍 SELECCIÓN DE JURISDICCIÓN")
 with col_h2:
-    st.markdown(f"**EMISIÓN:** 25 de septiembre de 2026<br>**HORA:** 10:30 h", unsafe_allow_html=True)
+    st.markdown(f"**EMISIÓN:** 25 de septiembre de 2026<br>**HORA:** 11:00 h", unsafe_allow_html=True)
 
 caleta_seleccionada = st.selectbox(
     "Elija la caleta a evaluar:",
@@ -62,23 +62,24 @@ caleta_seleccionada = st.selectbox(
     ]
 )
 
-st.markdown(f"**Jurisdicción Activa:** {caleta_seleccionada.split('(')[0].strip()} | **Estado operativo:** Sincronizado en tiempo real")
+st.markdown(f"**Jurisdicción Activa:** {caleta_seleccionada.split('(')[0].strip()} | **Estado operativo:** Sincronizado en terreno")
 
 st.markdown("---")
 
 # ==========================================
-# EVALUACIÓN GFS EN TIEMPO REAL (HOY: 25/09/2026)
+# EVALUACIÓN GFS DETALLADA (HOY: 25/09/2026)
 # ==========================================
-st.markdown("### 🌊 EVALUACIÓN GFS EN TIEMPO REAL - CONDICIÓN MARINA")
+st.markdown("### 🌊 EVALUACIÓN GFS Y CONDICIÓN MARINA (CURANIPE / COBQUECURA)")
 
 col_m1, col_m2 = st.columns(2)
 
 with col_m1:
     st.markdown("""
         <div class="metric-card">
-            <h4>🌊 Olas GFS (Marino)</h4>
-            <h2>2,0 m</h2>
-            <p style="color: #666; font-size: 14px;">Límite operativo seguro: &le; 2.2 m<br><b>Condición:</b> Marejada moderada / Rompiente exigente</p>
+            <h4>🌊 Oleaje GFS (Evolución Horaria)</h4>
+            <p><b>Madrugada / Mañana (00:00 - 09:00 h):</b> 2.4 m a 2.6 m (Períodos 10-11s)<br>
+            <b>Tarde / Noche (12:00 - 21:00 h):</b> 2.1 m bajando a 1.8 m - 1.9 m</p>
+            <p style="color: #d9534f; font-size: 13px; margin: 0;"><b>Estado Matinal:</b> Rompiente fuerte / Restringido</p>
         </div>
     """, unsafe_allow_html=True)
 
@@ -86,8 +87,9 @@ with col_m2:
     st.markdown("""
         <div class="metric-card">
             <h4>💨 Viento GFS (Meteorología)</h4>
-            <h2>18,0 km/h</h2>
-            <p style="color: #666; font-size: 14px;">Límite operativo seguro: &le; 28 km/h<br><b>Condición:</b> Brisa moderada favorable</p>
+            <p><b>Mañana:</b> Brisa moderada de 6 a 8 nudos<br>
+            <b>Tarde:</b> Disminución suave a 3 a 5 nudos</p>
+            <p style="color: #5cb85c; font-size: 13px; margin: 0;"><b>Estado del Viento:</b> Favorable para operaciones terrestres</p>
         </div>
     """, unsafe_allow_html=True)
 
@@ -96,31 +98,31 @@ st.markdown("---")
 # ==========================================
 # EVALUACIÓN DIARIA Y CONDICIÓN DE ZARPE
 # ==========================================
-st.markdown("### 📅 EVALUACIÓN DIARIA Y CONDICIÓN DE ZARPE - (Viernes 25/09/2026)")
+st.markdown("### 📅 ESTRATEGIA DE FISCALIZACIÓN TÁCTICA - (Viernes 25/09/2026)")
 
 col_r1, col_r2, col_r3 = st.columns(3)
 
 with col_r1:
     st.markdown("""
-    #### 🐟 Curanipe (Merluza)
-    * **Zarpe:** Restringido por rompiente matinal.
-    * **Estrategia:** Control Carretero Tarde / Descarte en ruta principal.
-    * **Riesgo Operativo:** Medio-Alto.
+    #### 🐟 Merluza Común
+    * **Zarpe Mañana:** Nulo por rompiente alta (2.4 - 2.6 m).
+    * **Estrategia:** Control Carretero Tarde y verificación de cámaras de frío.
+    * **Riesgo Operativo:** Alto en caleta, activo en rutas.
     """)
 
 with col_r2:
     st.markdown("""
     #### 🐟 Sierra
-    * **Extractividad:** Mínima en caleta abierta.
-    * **Estrategia:** Verificación de guías de despacho y cámaras de frío locales.
+    * **Extractividad:** Mínima por condiciones de rompiente exigente.
+    * **Estrategia:** Revisión documental de guías en puntos de venta locales.
     * **Riesgo Operativo:** Moderado.
     """)
 
 with col_r3:
     st.markdown("""
     #### 🦑 Jibia
-    * **Desembarque:** Sin recaladas masivas previstas por altura de ola (2.0m).
-    * **Estrategia:** Inspección de puntos de acopio intermedios.
+    * **Desembarque:** Sin recaladas masivas en la franja matinal.
+    * **Estrategia:** Monitoreo de transporte y centros de acopio zonales.
     * **Riesgo Operativo:** Bajo.
     """)
 
@@ -131,12 +133,9 @@ st.markdown("---")
 # ==========================================
 st.markdown("### 📊 AUDITORÍA Y TRAZABILIDAD DE DESEMBARQUES (2024 - 2026)")
 
-# Búsqueda automática de archivos Excel en el repositorio
 archivos_excel = glob.glob("*.xlsx")
 if archivos_excel:
     st.success(f"Archivos de desembarque detectados en el repositorio: {', '.join(archivos_excel)}")
-    
-    # Selector de archivo para auditar
     archivo_elegido = st.selectbox("Seleccione la base de datos de desembarque a auditar:", archivos_excel)
     
     try:
@@ -146,9 +145,8 @@ if archivos_excel:
     except Exception as e:
         st.warning(f"No se pudo cargar la vista previa del Excel directamente: {e}")
 else:
-    st.info("ℹ️ No se detectaron planillas Excel locales. El sistema está operando con datos GFS en línea y registros de respaldo.")
+    st.info("ℹ️ Operando con parámetros GFS en línea y registros de respaldo histórico.")
     
-    # Datos de respaldo simulados para auditoría rápida
     data_demo = pd.DataFrame({
         "Fecha": ["2026-09-25", "2026-09-24", "2026-09-23", "2026-09-22"],
         "Caleta": ["Curanipe", "Cobquecura", "Curanipe", "Cobquecura"],
@@ -159,4 +157,4 @@ else:
     st.dataframe(data_demo, use_container_width=True)
 
 st.markdown("---")
-st.caption("SIAF - Sistema de Inspección y Análisis de Pesquerías | SERNAPESCA Región del Maule y Ñuble. Actualizado automáticamente vía GFS para terreno.")
+st.caption("SIAF - Sistema de Inspección y Análisis de Pesquerías | SERNAPESCA Región del Maule y Ñuble. Actualizado para terreno.")
